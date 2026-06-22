@@ -638,5 +638,3 @@ async function showProf() {
     ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}</span><span class="session-score">${s.score}/4</span></div>`).join('')}</div>`
     : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>';
 }
-
-
