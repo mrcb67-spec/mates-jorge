@@ -1,3 +1,8 @@
+bash
+
+cat /home/claude/mates-jorge/public/app.js
+Salida
+
 // ─── ESTADO ───────────────────────────────────────────────────────
 let currentUser = null;
 let currentRole = null;
@@ -55,7 +60,9 @@ function doLogout() {
   document.getElementById('passInput').value = '';
 }
 
-document.getElementById('passInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('passInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+});
 
 // ─── PANTALLAS ────────────────────────────────────────────────────
 function showScreen(id) {
@@ -630,3 +637,10 @@ async function showProf() {
     ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}</span><span class="session-score">${s.score}/4</span></div>`).join('')}</div>`
     : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>';
 }
+Listo
+Ve a GitHub → mates-jorge → carpeta public → clic en app.js → botón del lápiz ✏️ → Cmd+A para seleccionar todo → borra → y pega todo el texto que aparece arriba (desde // ─── ESTADO hasta el final).
+
+Luego dale a Commit changes y Render lo redesplegará automáticamente.
+
+
+
