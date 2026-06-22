@@ -1,8 +1,3 @@
-bash
-
-cat /home/claude/mates-jorge/public/app.js
-Salida
-
 // ─── ESTADO ───────────────────────────────────────────────────────
 let currentUser = null;
 let currentRole = null;
