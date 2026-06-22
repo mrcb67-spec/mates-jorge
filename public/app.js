@@ -62,6 +62,7 @@ function doLogout() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('passInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('loginBtn').addEventListener('click', doLogin);
 });
 
 // ─── PANTALLAS ────────────────────────────────────────────────────
