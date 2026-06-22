@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mates de Verano</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginScreen" class="screen active">
+    <div class="login-box">
+      <div class="login-icon">📐</div>
+      <h1>Mates de Verano</h1>
+      <p class="subtitle">2º ESO · Junio, Julio y Agosto 2026</p>
+      <div class="form-group">
+        <label>Usuario</label>
+        <input type="text" id="userInput" placeholder="tu usuario" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="passInput" placeholder="••••••" autocomplete="current-password" />
+      </div>
+      <div id="loginError" class="error-msg" style="display:none">Usuario o contraseña incorrectos.</div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Entrar</button>
+    </div>
+  </div>
+
+  <!-- HOME ALUMNO -->
+  <div id="homeScreen" class="screen">
+    <nav class="navbar">
+      <div class="nav-logo">📐 Mates de Verano</div>
+      <div class="nav-right">
+        <span id="navGreeting"></span>
+        <button class="btn btn-sm" onclick="doLogout()">Salir</button>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="statDone">0</div><div class="stat-label">días completados</div></div>
+        <div class="stat-card"><div class="stat-num" id="statStreak">0</div><div class="stat-label">racha actual 🔥</div></div>
+        <div class="stat-card"><div class="stat-num" id="statAvg">0/4</div><div class="stat-label">nota media</div></div>
+        <div class="stat-card"><div class="stat-num" id="statLeft">75</div><div class="stat-label">días restantes</div></div>
+      </div>
+
+      <div class="card today-card">
+        <div class="today-header">
+          <div>
+            <h2 id="todayTitle">Ejercicios de hoy</h2>
+            <p id="todayDate" class="muted"></p>
+          </div>
+          <span id="todayBadge" class="badge badge-info">pendiente</span>
+        </div>
+        <p id="todayMsg">Tienes 4 ejercicios esperándote hoy. ¡A por ellos!</p>
+        <button class="btn btn-primary" id="startBtn" onclick="goExercises()">Empezar ejercicios del día 🚀</button>
+      </div>
+
+      <div class="card">
+        <h2>Junio – Julio – Agosto 2026</h2>
+        <div id="calContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div id="exerciseScreen" class="screen">
+    <nav class="navbar">
+      <button class="btn btn-sm" onclick="goHome()">← Inicio</button>
+      <span id="exDateLabel" class="muted"></span>
+    </nav>
+    <div class="container">
+      <div id="exerciseContainer"></div>
+      <div id="submitArea" style="text-align:center;margin:1.5rem 0;display:none">
+        <button class="btn btn-primary btn-lg" onclick="submitAll()">Corregir todo ✓</button>
+      </div>
+      <div id="doneArea" style="text-align:center;margin:2rem 0;display:none">
+        <div id="scoreMsg" class="score-msg"></div>
+        <div id="encourageMsg" class="encourage-msg"></div>
+        <button class="btn btn-primary" onclick="goHome()">🏠 Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFE -->
+  <div id="profScreen" class="screen">
+    <nav class="navbar">
+      <div class="nav-logo">📐 Panel del Profesor</div>
+      <button class="btn btn-sm" onclick="doLogout()">Salir</button>
+    </nav>
+    <div class="container">
+      <div class="stats-grid" id="profStats"></div>
+      <div class="card">
+        <h2>Progreso de Jorge</h2>
+        <div id="profCal"></div>
+      </div>
+      <div class="card">
+        <h2>Sesiones recientes</h2>
+        <div id="profList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

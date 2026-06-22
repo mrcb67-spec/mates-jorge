@@ -1,0 +1,13 @@
+{
+  "name": "mates-jorge",
+  "version": "1.0.0",
+  "description": "Deberes de verano - Matemáticas 2º ESO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@supabase/supabase-js": "^2.39.0"
+  }
+}
