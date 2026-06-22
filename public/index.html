@@ -6,6 +6,9 @@
   <title>Mates de Verano</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<script>
+document.getElementById('loginBtn').addEventListener('click', doLogin);
+</script>
 <body>
 
   <!-- LOGIN -->
@@ -23,7 +26,7 @@
         <input type="password" id="passInput" placeholder="••••••" autocomplete="current-password" />
       </div>
       <div id="loginError" class="error-msg" style="display:none">Usuario o contraseña incorrectos.</div>
-      <button class="btn btn-primary btn-full" onclick="doLogin()">Entrar</button>
+      <button class="btn btn-primary btn-full" id="loginBtn">Entrar</button>
     </div>
   </div>
 
