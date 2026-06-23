@@ -717,8 +717,9 @@ async function showProf() {
     return `<div><div class="cal-month-title">${name}</div><div class="cal-weekdays">${wdays.map(w=>`<span>${w}</span>`).join('')}</div><div class="cal-days">${days}</div></div>`;
   }).join('')}</div>`;
   // Lista sesiones recientes
-  const recent = jorge.filter(s=>s.completed).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
+  const allStudents = Array.isArray(sessions) ? sessions.filter(s => s.completed) : [];
+  const recent = allStudents.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20);
   document.getElementById('profList').innerHTML = recent.length
-    ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}</span><span class="session-score">${s.score}/4</span></div>`).join('')}</div>`
-    : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>';
+    ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${s.username} · ${formatDateES(s.date)}${s.time ? ' · ' + s.time + 'h' : ''}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
+    : '<p style="color:#86868b;font-size:14px">No hay sesiones completadas.</p>';
 }
