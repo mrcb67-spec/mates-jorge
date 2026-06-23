@@ -496,7 +496,7 @@ function getUserAnswers(i) {
   const ans = {};
   ex.answers.forEach(a => {
     const el = document.getElementById(`ans-${i}-${a.key}`);
-    ans[a.key] = el ? el.value.trim().replace(',', '.') : '';
+    ans[a.key] = el ? el.value.trim().replace(',', '.').replace('−', '-').replace('–', '-') : '';
   });
   return ans;
 }
