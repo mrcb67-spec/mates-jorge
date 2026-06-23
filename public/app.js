@@ -719,8 +719,11 @@ async function showProf() {
   }).join('')}</div>`;
   // Lista sesiones recientes
   const allStudents = Array.isArray(sessions) ? sessions.filter(s => s.completed) : [];
-  const recent = allStudents.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20);
-  document.getElementById('profList').innerHTML = recent.length
+  const recent = allStudents.sort((a,b)=>{
+    const dateCompare = b.date.localeCompare(a.date);
+    if (dateCompare !== 0) return dateCompare;
+    return (b.time || '').localeCompare(a.time || '');
+  }).slice(0,20);  document.getElementById('profList').innerHTML = recent.length
     ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${s.username} · ${formatDateES(s.date)}${s.time ? ' · ' + s.time + 'h' : ''}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
     : '<p style="color:#86868b;font-size:14px">No hay sesiones completadas.</p>';
 }
