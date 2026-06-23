@@ -77,6 +77,7 @@ async function showHome() {
   renderCalendar('calContainer', ['jorge', 'test'].includes(currentUser));
   updateTodayCard();
   checkWeeklyAlert();
+  loadTeacherMessage();
 }
 
 function updateStats() {
@@ -638,6 +639,7 @@ function checkWeeklyAlert() {
       alert(`⚠️ La semana pasada solo completaste ${doneLastWeek} día${doneLastWeek === 1 ? '' : 's'} de deberes. Te faltaron ${missing} día${missing === 1 ? '' : 's'} para llegar a los 5 obligatorios.`);
     }, 1000);
   }
+}
 
 async function saveMessage() {
   const content = document.getElementById('msgInput').value.trim();
