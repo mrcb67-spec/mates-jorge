@@ -61,6 +61,19 @@ app.get('/api/sessions', async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
+// Guardar mensaje del profe
+app.post('/api/message', async (req, res) => {
+  const { content } = req.body;
+  const { error } = await supabase.from('messages').upsert({ id: '00000000-0000-0000-0000-000000000001', content });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
 
+// Obtener mensaje del profe
+app.get('/api/message', async (req, res) => {
+  const { data, error } = await supabase.from('messages').select('*').limit(1).single();
+  if (error) return res.json({ content: null });
+  res.json(data);
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
