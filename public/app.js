@@ -511,7 +511,7 @@ function isCorrect(i) {
     return (correctVals[0] === userVals[0] && correctVals[1] === userVals[1]) ||
            (correctVals[0] === userVals[1] && correctVals[1] === userVals[0]);
   }
-  return correctVals[0] === userVals[Object.keys(userAns)[0]];
+  return correctVals[0] === userVals[0];
 }
 
 function checkOne(i) {
