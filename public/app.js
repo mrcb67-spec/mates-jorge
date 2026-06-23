@@ -247,7 +247,7 @@ function genProporcionalidad(rng) {
   const res = (b * c) / a;
   if (!Number.isInteger(res)) return genProporcionalidad(rng);
   return {
-    topic: 'Proporcionalidad directa',
+    topic: 'Proporcionalidad',
     question: `Si ${a} artículos cuestan ${b} €, ¿cuánto cuestan ${c} artículos?`,
     answers: [{ label: 'Resultado', key: 'x' }],
     correctAnswers: { x: String(res) },
@@ -307,7 +307,7 @@ function genRegla3(rng) {
     steps = [`Total horas-obrero: ${a}×${b}×${dias} = ${total}`, `Nuevas horas por día: ${c}×${d} = ${c*d}`, `Días: ${total}/${c*d} = ${res}`];
     answer = String(res);
   }
-  return { topic: `Regla de tres ${tipo}`, question, answers: [{ label: '', key: 'x' }], correctAnswers: { x: answer }, steps, hint: 'Escribe los datos en forma de tabla con las dos magnitudes. Decide si es directa (más→más) o inversa (más→menos).' };
+  return { topic: 'Proporcionalidad', question, answers: [{ label: '', key: 'x' }], correctAnswers: { x: answer }, steps, hint: 'Escribe los datos en forma de tabla con las dos magnitudes. Decide si es directa (más→más) o inversa (más→menos).' };
 }
 
 function genEc1(rng) {
@@ -472,7 +472,7 @@ function renderExercises() {
     block.innerHTML = `
       <div class="ex-header">
         <span class="ex-num">EJERCICIO ${i + 1}</span>
-        <span class="ex-topic">${ex.topic}</span>
+        <span class="ex-topic" id="topic-${i}" style="display:none">${ex.topic}</span>
         <span class="ex-result" id="icon-${i}"></span>
       </div>
       <div class="question">${ex.question}</div>
@@ -563,6 +563,7 @@ function markBlock(i, correct) {
   block.classList.remove('correct', 'wrong');
   block.classList.add(correct ? 'correct' : 'wrong');
   document.getElementById(`icon-${i}`).textContent = correct ? '✓' : '✗';
+  document.getElementById(`topic-${i}`).style.display = 'inline';
 }
 
 function checkAllAnswered() {
