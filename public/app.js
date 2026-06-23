@@ -139,9 +139,11 @@ function renderCalendar(containerId, highlightUser = true) {
       const isWeekend = [0, 6].includes(dt.getDay());
       const isToday = dt.getTime() === today.getTime();
       const isDone = highlightUser && sessionData[key]?.completed;
+      const isPast = dt < today;
       let cls = 'cal-day';
       if (isDone) cls += ' done';
       else if (isToday) cls += ' today';
+      else if (highlightUser && isPast) cls += ' missed';
       else if (isWeekend) cls += ' weekend';
       days += `<div class="${cls}" title="${key}">${d}</div>`;
     }
