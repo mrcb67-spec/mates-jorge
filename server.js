@@ -15,6 +15,7 @@ const supabase = createClient(
 const USERS = {
   'jorge': { password: 'verano2026', role: 'student' },
   'test':  { password: 'test123',    role: 'student' },
+  'test2':  { password: 'test123',    role: 'student' },
   'profe': { password: 'profe123',   role: 'teacher' }
 };
 
