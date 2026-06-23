@@ -90,7 +90,7 @@ function updateStats() {
   // Nota media
   const completed = Object.values(sessionData).filter(s => s.completed);
   const avg = completed.length ? (completed.reduce((a, s) => a + s.score, 0) / completed.length).toFixed(1) : '0';
-  document.getElementById('statAvg').textContent = `${avg}/4`;
+  document.getElementById('statAvg').textContent = `${(avg * 2.5).toFixed(1)}/10`;
   // Días restantes (cuenta desde hoy hasta 31 agosto)
   const end = new Date(2026, 7, 31);
   const today = new Date(); today.setHours(0,0,0,0);
