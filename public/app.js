@@ -44,6 +44,7 @@ async function doLogin() {
     currentUser = data.username;
     currentRole = data.role;
     if (currentRole === 'teacher') { await showProf(); }
+    else if (currentRole === 'parent') { await showParent(); }
     else { await showHome(); }
   } catch { errEl.textContent = 'Error de conexión.'; errEl.style.display = 'block'; }
 }
