@@ -592,9 +592,11 @@ async function finishSession() {
   const totalScore = exerciseState.reduce((sum, s) => sum + (s.score || 0), 0);
   const scoreOn10 = (totalScore * 2.5).toFixed(1);
   const tk = todayStr();
+  const now = new Date();
+  const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   await apiFetch('/api/sessions', {
     method: 'POST',
-    body: JSON.stringify({ username: currentUser, date: tk, score: parseFloat(scoreOn10), completed: true })
+    body: JSON.stringify({ username: currentUser, date: tk, score: parseFloat(scoreOn10), completed: true, time: timeStr })
   });
   const msgs = ['¡Sigue practicando! 💪', '¡Buen intento! 👍', '¡Bien! 🌟', '¡Muy bien! 🔥', '¡Casi perfecto! 💪', '¡Excelente! ⭐', '¡Genial! 🌟', '¡Muy bien! 🔥', '¡Casi perfecto! 🚀', '¡Perfecto! 🏆', '¡Perfecto! 🏆'];
   document.getElementById('scoreMsg').textContent = `${scoreOn10}/10`;
@@ -670,7 +672,7 @@ async function showParent() {
   }).join('')}</div>`;
   const recent = jorge.filter(s=>s.completed).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
   document.getElementById('familyList').innerHTML = recent.length
-    ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
+    ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}${s.time ? ' · ' + s.time + 'h' : ''}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
     : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>';
 }
 
