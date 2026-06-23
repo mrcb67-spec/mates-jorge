@@ -1,4 +1,5 @@
 // ─── ESTADO ───────────────────────────────────────────────────────
+const DIAS_OBLIGATORIOS = 5;
 let currentUser = null;
 let currentRole = null;
 let sessionData = {};
@@ -621,13 +622,13 @@ function checkWeeklyAlert() {
   }
   // No mostrar antes del 6 de julio (primera semana de deberes es 29 jun - 5 jul)
   if (today < new Date(2026, 6, 6)) return;
-  const missing = 5 - doneLastWeek;
+  const missing = DIAS_OBLIGATORIOS - doneLastWeek;
   // Mostrar panel fijo siempre
   const weekSummary = document.getElementById('weekSummary');
   if (weekSummary) {
     if (missing > 0) {
       weekSummary.style.display = 'block';
-      weekSummary.innerHTML = `⚠️ La semana pasada completaste <strong>${doneLastWeek}/5</strong> días obligatorios. Te faltaron <strong>${missing}</strong>.`;
+      weekSummary.innerHTML = `⚠️ La semana pasada completaste <strong>${doneLastWeek}/${DIAS_OBLIGATORIOS}</strong> días obligatorios. Te faltaron <strong>${missing}</strong>.`;
       weekSummary.style.cssText = 'display:block;background:#fff3cd;border-left:4px solid #ff9500;padding:0.75rem 1rem;border-radius:10px;font-size:14px;margin-bottom:1rem;color:#b07800;';
     } else {
       weekSummary.style.display = 'none';
@@ -698,7 +699,7 @@ async function showParent() {
   const thisWeekAvg = thisWeekSessions.length ? (thisWeekSessions.reduce((a,s)=>a+s.score,0)/thisWeekSessions.length).toFixed(1) : null;
   const tendencia = lastWeekAvg && thisWeekAvg ? (parseFloat(thisWeekAvg) > parseFloat(lastWeekAvg) ? '📈 Mejorando' : parseFloat(thisWeekAvg) < parseFloat(lastWeekAvg) ? '📉 Bajando' : '➡️ Igual') : '—';
   document.getElementById('familyStats').innerHTML = `
-    <div class="stat-card"><div class="stat-num">${doneThisWeek}/5</div><div class="stat-label">días esta semana</div></div>
+    <div class="stat-card"><div class="stat-num">${doneThisWeek}/${DIAS_OBLIGATORIOS}</div><div class="stat-label">días esta semana</div></div>
     <div class="stat-card"><div class="stat-num">${avg}/10</div><div class="stat-label">nota media</div></div>
     <div class="stat-card"><div class="stat-num" style="font-size:14px">${lastSession ? formatDateES(lastSession.date) : '—'}</div><div class="stat-label">última sesión</div></div>
     <div class="stat-card"><div class="stat-num" style="font-size:16px">${tendencia}</div><div class="stat-label">tendencia</div></div>
