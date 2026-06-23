@@ -647,11 +647,31 @@ async function showParent() {
   showScreen('familyScreen');
   const sessions = await apiFetch('/api/sessions');
   const jorge = Array.isArray(sessions) ? sessions.filter(s => s.username === 'jorge') : [];
-  const done = jorge.filter(s => s.completed).length;
-  const avg = done ? (jorge.filter(s=>s.completed).reduce((a,s)=>a+s.score,0)/done).toFixed(1) : 0;
+ // Semana actual
+  const todayDate = new Date(); todayDate.setHours(0,0,0,0);
+  const dayOfWeek = todayDate.getDay() === 0 ? 7 : todayDate.getDay();
+  const thisMonday = new Date(todayDate);
+  thisMonday.setDate(todayDate.getDate() - dayOfWeek + 1);
+  let doneThisWeek = 0;
+  for (let d = new Date(thisMonday); d <= todayDate; d.setDate(d.getDate() + 1)) {
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (jorge.find(s => s.date === key && s.completed)) doneThisWeek++;
+  }
+  // Última sesión
+  const lastSession = jorge.filter(s=>s.completed).sort((a,b)=>b.date.localeCompare(a.date))[0];
+  // Tendencia
+  const lastMonday2 = new Date(thisMonday); lastMonday2.setDate(thisMonday.getDate() - 7);
+  const lastSunday2 = new Date(thisMonday); lastSunday2.setDate(thisMonday.getDate() - 1);
+  const lastWeekSessions = jorge.filter(s => s.completed && s.date >= lastMonday2.toISOString().slice(0,10) && s.date <= lastSunday2.toISOString().slice(0,10));
+  const lastWeekAvg = lastWeekSessions.length ? (lastWeekSessions.reduce((a,s)=>a+s.score,0)/lastWeekSessions.length).toFixed(1) : null;
+  const thisWeekSessions = jorge.filter(s => s.completed && s.date >= thisMonday.toISOString().slice(0,10));
+  const thisWeekAvg = thisWeekSessions.length ? (thisWeekSessions.reduce((a,s)=>a+s.score,0)/thisWeekSessions.length).toFixed(1) : null;
+  const tendencia = lastWeekAvg && thisWeekAvg ? (parseFloat(thisWeekAvg) > parseFloat(lastWeekAvg) ? '📈 Mejorando' : parseFloat(thisWeekAvg) < parseFloat(lastWeekAvg) ? '📉 Bajando' : '➡️ Igual') : '—';
   document.getElementById('familyStats').innerHTML = `
-    <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">días completados</div></div>
+    <div class="stat-card"><div class="stat-num">${doneThisWeek}/5</div><div class="stat-label">días esta semana</div></div>
     <div class="stat-card"><div class="stat-num">${avg}/10</div><div class="stat-label">nota media</div></div>
+    <div class="stat-card"><div class="stat-num" style="font-size:14px">${lastSession ? formatDateES(lastSession.date) : '—'}</div><div class="stat-label">última sesión</div></div>
+    <div class="stat-card"><div class="stat-num" style="font-size:16px">${tendencia}</div><div class="stat-label">tendencia</div></div>
   `;
   const profData = {};
   jorge.forEach(s => { profData[s.date] = s; });
