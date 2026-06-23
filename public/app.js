@@ -682,11 +682,12 @@ async function showProf() {
   const sessions = await apiFetch('/api/sessions');
   const jorge = Array.isArray(sessions) ? sessions.filter(s => s.username === 'jorge') : [];
   // Stats
-  const done = jorge.filter(s => s.completed).length;
-  const avg = done ? (jorge.filter(s=>s.completed).reduce((a,s)=>a+s.score,0)/done).toFixed(1) : 0;
+  const allCompleted = Array.isArray(sessions) ? sessions.filter(s => s.completed) : [];
+  const done = allCompleted.length;
+  const avg = done ? (allCompleted.reduce((a,s)=>a+s.score,0)/done).toFixed(1) : 0;
   document.getElementById('profStats').innerHTML = `
-    <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">días completados</div></div>
-    <div class="stat-card"><div class="stat-num">${(avg * 2.5).toFixed(1)}/10</div><div class="stat-label">nota media</div></div>
+    <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">sesiones totales</div></div>
+    <div class="stat-card"><div class="stat-num">${parseFloat(avg).toFixed(1)}/10</div><div class="stat-label">nota media general</div></div>
   `;
   // Calendario con sesiones de jorge
   const profData = {};
