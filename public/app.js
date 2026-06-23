@@ -733,6 +733,10 @@ async function showParent() {
 // ─── PANEL PROFE ──────────────────────────────────────────────────
 async function showProf() {
   showScreen('profScreen');
+  const currentMsg = await apiFetch('/api/message');
+  if (currentMsg && currentMsg.content) {
+    document.getElementById('msgInput').value = currentMsg.content;
+  }
   const sessions = await apiFetch('/api/sessions');
   const jorge = Array.isArray(sessions) ? sessions.filter(s => s.username === 'jorge') : [];
   // Stats
