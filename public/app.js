@@ -619,6 +619,8 @@ function checkWeeklyAlert() {
     const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     if (sessionData[key]?.completed) doneLastWeek++;
   }
+  // No mostrar antes del 6 de julio (primera semana de deberes es 29 jun - 5 jul)
+  if (today < new Date(2026, 6, 6)) return;
   const missing = 5 - doneLastWeek;
   // Mostrar panel fijo siempre
   const weekSummary = document.getElementById('weekSummary');
