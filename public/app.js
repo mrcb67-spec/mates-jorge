@@ -522,15 +522,29 @@ function checkOne(i) {
   if (correct) {
     state.submitted = true;
     state.correct = true;
+    // Calcular puntuación
+    if (state.attempts === 1 && !state.hintShown) state.score = 1;
+    else if (state.attempts === 1 && state.hintShown) state.score = 0.75;
+    else if (state.attempts === 2 && !state.hintShown) state.score = 0.5;
+    else if (state.attempts === 2 && state.hintShown) state.score = 0.25;
+    else state.score = 0.1;
     markBlock(i, true);
     document.getElementById(`steps-${i}`).classList.add('show');
   } else {
-    if (!state.hintShown) {
+    if (state.attempts === 1 && !state.hintShown) {
+      // Primer fallo sin pista: mostrar botón pista
       document.getElementById(`hintBtn-${i}`).style.display = 'inline-block';
+    } else if (state.attempts === 1 && state.hintShown) {
+      // Primer fallo con pista: un intento más, luego solución
+      document.getElementById(`hintBtn-${i}`).style.display = 'none';
+    } else if (state.attempts === 2 && !state.hintShown) {
+      // Segundo fallo sin pista: mostrar pista obligatoria y dar 3er intento
+      showHint(i);
     } else {
-      // Ya vio la pista, mostrar solución
+      // Agotados los intentos
       state.submitted = true;
       state.correct = false;
+      state.score = 0;
       markBlock(i, false);
       document.getElementById(`steps-${i}`).classList.add('show');
     }
