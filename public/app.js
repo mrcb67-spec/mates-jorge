@@ -654,6 +654,14 @@ async function saveMessage() {
   setTimeout(() => document.getElementById('msgStatus').style.display = 'none', 3000);
 }
 
+async function deleteMessage() {
+  await apiFetch('/api/message', { method: 'DELETE' });
+  document.getElementById('msgInput').value = '';
+  document.getElementById('msgStatus').textContent = '✓ Mensaje borrado';
+  document.getElementById('msgStatus').style.display = 'block';
+  setTimeout(() => document.getElementById('msgStatus').style.display = 'none', 3000);
+}
+
 async function loadTeacherMessage() {
   const data = await apiFetch('/api/message');
   if (data && data.content) {
