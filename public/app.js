@@ -110,7 +110,7 @@ function updateTodayCard() {
   const btn = document.getElementById('startBtn');
   if (done) {
     badge.className = 'badge badge-success'; badge.textContent = '¡completado!';
-    msg.textContent = `¡Genial! Has sacado ${sessionData[tk].score}/4 hoy. ¡Sigue así!`;
+    msg.textContent = `¡Genial! Has sacado ${sessionData[tk].score}/10 hoy. ¡Sigue así!`;
     btn.style.display = 'none';
   } else {
     badge.className = 'badge badge-info'; badge.textContent = 'pendiente';
