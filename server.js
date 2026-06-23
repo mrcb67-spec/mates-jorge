@@ -33,9 +33,9 @@ app.post('/api/login', (req, res) => {
 
 // Guardar sesión
 app.post('/api/sessions', async (req, res) => {
-  const { username, date, score, completed } = req.body;
+  const { username, date, score, completed, time } = req.body;
   const { error } = await supabase.from('sessions').upsert(
-    { username, date, score, completed },
+    { username, date, score, completed, time },
     { onConflict: 'username,date' }
   );
   if (error) return res.status(500).json({ error: error.message });
