@@ -596,7 +596,7 @@ async function showProf() {
   const avg = done ? (jorge.filter(s=>s.completed).reduce((a,s)=>a+s.score,0)/done).toFixed(1) : 0;
   document.getElementById('profStats').innerHTML = `
     <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">días completados</div></div>
-    <div class="stat-card"><div class="stat-num">${avg}/4</div><div class="stat-label">nota media</div></div>
+    <div class="stat-card"><div class="stat-num">${(avg * 2.5).toFixed(1)}/10</div><div class="stat-label">nota media</div></div>
   `;
   // Calendario con sesiones de jorge
   const profData = {};
