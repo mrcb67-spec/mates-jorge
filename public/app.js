@@ -584,17 +584,16 @@ function submitAll() {
 
 async function finishSession() {
   document.getElementById('submitArea').style.display = 'none';
-  const correct = exerciseState.filter(s => s.correct).length;
+  const totalScore = exerciseState.reduce((sum, s) => sum + (s.score || 0), 0);
+  const scoreOn10 = (totalScore * 2.5).toFixed(1);
   const tk = todayStr();
-  // Guardar en Supabase
   await apiFetch('/api/sessions', {
     method: 'POST',
-    body: JSON.stringify({ username: currentUser, date: tk, score: correct, completed: true })
+    body: JSON.stringify({ username: currentUser, date: tk, score: parseFloat(scoreOn10), completed: true })
   });
-  // Mostrar resultado
-  const msgs = ['¡Sigue practicando! 💪', '¡Bien hecho! 👍', '¡Muy bien! 🌟', '¡Casi perfecto! 🔥', '¡Perfecto! 🏆'];
-  document.getElementById('scoreMsg').textContent = `${correct}/4 correctos`;
-  document.getElementById('encourageMsg').textContent = msgs[correct] || '';
+  const msgs = ['¡Sigue practicando! 💪', '¡Buen intento! 👍', '¡Bien! 🌟', '¡Muy bien! 🔥', '¡Casi perfecto! 💪', '¡Excelente! ⭐', '¡Genial! 🌟', '¡Muy bien! 🔥', '¡Casi perfecto! 🚀', '¡Perfecto! 🏆', '¡Perfecto! 🏆'];
+  document.getElementById('scoreMsg').textContent = `${scoreOn10}/10`;
+  document.getElementById('encourageMsg').textContent = msgs[Math.round(parseFloat(scoreOn10))] || '¡Bien hecho!';
   document.getElementById('doneArea').style.display = 'block';
 }
 
