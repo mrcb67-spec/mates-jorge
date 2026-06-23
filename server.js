@@ -17,7 +17,8 @@ const USERS = {
   'test':  { password: 'test123',    role: 'student' },
   'test2':  { password: 'test123',    role: 'student' },
   'test3':  { password: 'test123',    role: 'student' },
-  'profe': { password: 'profe123',   role: 'teacher' }
+  'profe': { password: 'profe123',   role: 'teacher' },
+  'familia_jorge': { password: 'veranojorge2026', role: 'parent', student: 'jorge' },
 };
 
 // Login
