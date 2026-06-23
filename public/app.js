@@ -608,20 +608,32 @@ function goHome() { showHome(); showScreen('homeScreen'); }
 function checkWeeklyAlert() {
   const today = new Date();
   today.setHours(0,0,0,0);
-  // Calcular inicio y fin de la semana anterior (lunes a domingo)
   const dayOfWeek = today.getDay() === 0 ? 7 : today.getDay();
   const lastMonday = new Date(today);
   lastMonday.setDate(today.getDate() - dayOfWeek - 6);
   const lastSunday = new Date(today);
   lastSunday.setDate(today.getDate() - dayOfWeek);
-  // Contar días completados la semana anterior
   let doneLastWeek = 0;
   for (let d = new Date(lastMonday); d <= lastSunday; d.setDate(d.getDate() + 1)) {
     const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     if (sessionData[key]?.completed) doneLastWeek++;
   }
   const missing = 5 - doneLastWeek;
-  if (missing > 0) {
+  // Mostrar panel fijo siempre
+  const weekSummary = document.getElementById('weekSummary');
+  if (weekSummary) {
+    if (missing > 0) {
+      weekSummary.style.display = 'block';
+      weekSummary.innerHTML = `⚠️ La semana pasada completaste <strong>${doneLastWeek}/5</strong> días obligatorios. Te faltaron <strong>${missing}</strong>.`;
+      weekSummary.style.cssText = 'display:block;background:#fff3cd;border-left:4px solid #ff9500;padding:0.75rem 1rem;border-radius:10px;font-size:14px;margin-bottom:1rem;color:#b07800;';
+    } else {
+      weekSummary.style.display = 'none';
+    }
+  }
+  // Alerta solo el lunes
+  const alertKey = `weekAlert_${lastMonday.toISOString().slice(0,10)}`;
+  if (dayOfWeek === 1 && missing > 0 && !localStorage.getItem(alertKey)) {
+    localStorage.setItem(alertKey, '1');
     setTimeout(() => {
       alert(`⚠️ La semana pasada solo completaste ${doneLastWeek} día${doneLastWeek === 1 ? '' : 's'} de deberes. Te faltaron ${missing} día${missing === 1 ? '' : 's'} para llegar a los 5 obligatorios.`);
     }, 1000);
