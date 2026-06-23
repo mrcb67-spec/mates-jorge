@@ -638,6 +638,24 @@ function checkWeeklyAlert() {
       alert(`⚠️ La semana pasada solo completaste ${doneLastWeek} día${doneLastWeek === 1 ? '' : 's'} de deberes. Te faltaron ${missing} día${missing === 1 ? '' : 's'} para llegar a los 5 obligatorios.`);
     }, 1000);
   }
+
+async function saveMessage() {
+  const content = document.getElementById('msgInput').value.trim();
+  if (!content) return;
+  await apiFetch('/api/message', {
+    method: 'POST',
+    body: JSON.stringify({ content })
+  });
+  document.getElementById('msgStatus').style.display = 'block';
+  setTimeout(() => document.getElementById('msgStatus').style.display = 'none', 3000);
+}
+
+async function loadTeacherMessage() {
+  const data = await apiFetch('/api/message');
+  if (data && data.content) {
+    document.getElementById('teacherMsg').style.display = 'block';
+    document.getElementById('teacherMsgText').textContent = '💬 ' + data.content;
+  }
 }
 function showInfo() {
   const modal = document.getElementById('infoModal');
