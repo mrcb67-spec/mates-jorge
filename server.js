@@ -69,6 +69,12 @@ app.post('/api/message', async (req, res) => {
   res.json({ ok: true });
 });
 
+app.delete('/api/message', async (req, res) => {
+  const { error } = await supabase.from('messages').delete().eq('id', '00000000-0000-0000-0000-000000000001');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+
 // Obtener mensaje del profe
 app.get('/api/message', async (req, res) => {
   const { data, error } = await supabase.from('messages').select('*').limit(1).single();
