@@ -585,6 +585,10 @@ async function finishSession() {
 }
 
 function goHome() { showHome(); showScreen('homeScreen'); }
+function showInfo() {
+  const modal = document.getElementById('infoModal');
+  modal.style.display = 'flex';
+}
 
 // ─── PANEL PROFE ──────────────────────────────────────────────────
 async function showProf() {
