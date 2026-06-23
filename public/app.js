@@ -670,6 +670,14 @@ async function loadTeacherMessage() {
     document.getElementById('teacherMsgText').textContent = '💬 ' + data.content;
   }
 }
+async function justifyDay(date) {
+  await apiFetch('/api/sessions', {
+    method: 'POST',
+    body: JSON.stringify({ username: 'jorge', date, score: 0, completed: true, justified: true })
+  });
+  showParent();
+}
+
 function showInfo() {
   const modal = document.getElementById('infoModal');
   modal.style.display = 'flex';
@@ -733,10 +741,27 @@ async function showParent() {
     }
     return `<div><div class="cal-month-title">${name}</div><div class="cal-weekdays">${wdays.map(w=>`<span>${w}</span>`).join('')}</div><div class="cal-days">${days}</div></div>`;
   }).join('')}</div>`;
+  // Mostrar días sin hacer con opción de justificar (desde 29 junio hasta ayer)
+  const startDate2 = new Date(2026, 5, 29);
+  const yesterday = new Date(); yesterday.setHours(0,0,0,0); yesterday.setDate(yesterday.getDate() - 1);
+  const missedDays = [];
+  for (let d = new Date(startDate2); d <= yesterday; d.setDate(d.getDate() + 1)) {
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const session = jorge.find(s => s.date === key);
+    if (!session) missedDays.push(key);
+  }
   const recent = jorge.filter(s=>s.completed).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
-  document.getElementById('familyList').innerHTML = recent.length
-    ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}${s.time ? ' · ' + s.time + 'h' : ''}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
-    : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>';
+  document.getElementById('familyList').innerHTML = `
+    ${missedDays.length ? `<div style="margin-bottom:1rem">
+      <p style="font-size:13px;color:#86868b;margin-bottom:0.5rem">Días sin completar — puedes justificar uno:</p>
+      ${missedDays.slice(0,5).map(key => `<div class="session-row" style="margin-bottom:6px">
+        <span class="session-date">${formatDateES(key)}</span>
+        <button class="btn btn-sm" onclick="justifyDay('${key}')" style="font-size:12px;padding:4px 10px">Justificar</button>
+      </div>`).join('')}
+    </div>` : ''}
+    ${recent.length ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}${s.time ? ' · ' + s.time + 'h' : ''}${s.justified ? ' 🟣' : ''}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
+    : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>'}
+  `;
 }
 
 // ─── PANEL PROFE ──────────────────────────────────────────────────
