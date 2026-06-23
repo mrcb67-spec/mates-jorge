@@ -629,6 +629,50 @@ function showInfo() {
   const modal = document.getElementById('infoModal');
   modal.style.display = 'flex';
 }
+async function showParent() {
+  showScreen('familyScreen');
+  const sessions = await apiFetch('/api/sessions');
+  const jorge = Array.isArray(sessions) ? sessions.filter(s => s.username === 'jorge') : [];
+  const done = jorge.filter(s => s.completed).length;
+  const avg = done ? (jorge.filter(s=>s.completed).reduce((a,s)=>a+s.score,0)/done).toFixed(1) : 0;
+  document.getElementById('familyStats').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">días completados</div></div>
+    <div class="stat-card"><div class="stat-num">${avg}/10</div><div class="stat-label">nota media</div></div>
+  `;
+  const profData = {};
+  jorge.forEach(s => { profData[s.date] = s; });
+  const calContainer = document.getElementById('familyCal');
+  const months = [{year:2026,month:6,name:'Junio'},{year:2026,month:7,name:'Julio'},{year:2026,month:8,name:'Agosto'}];
+  const wdays = ['L','M','X','J','V','S','D'];
+  const today = new Date(); today.setHours(0,0,0,0);
+  const startDate = new Date(2026, 5, 29);
+  calContainer.innerHTML = `<div class="cal-months">${months.map(({year,month,name})=>{
+    const firstDay = new Date(year,month-1,1).getDay();
+    const offset = firstDay===0?6:firstDay-1;
+    const daysInMonth = new Date(year,month,0).getDate();
+    let days='';
+    for(let i=0;i<offset;i++) days+=`<div class="cal-day empty"></div>`;
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=new Date(year,month-1,d);
+      const key=`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isWeekend=[0,6].includes(dt.getDay());
+      const isToday=dt.getTime()===today.getTime();
+      const isDone=profData[key]?.completed;
+      const isPast=dt<today&&dt>=startDate;
+      let cls='cal-day';
+      if(isDone) cls+=' done';
+      else if(isToday) cls+=' today';
+      else if(isPast) cls+=' missed';
+      else if(isWeekend) cls+=' weekend';
+      days+=`<div class="${cls}" title="${key}">${d}</div>`;
+    }
+    return `<div><div class="cal-month-title">${name}</div><div class="cal-weekdays">${wdays.map(w=>`<span>${w}</span>`).join('')}</div><div class="cal-days">${days}</div></div>`;
+  }).join('')}</div>`;
+  const recent = jorge.filter(s=>s.completed).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
+  document.getElementById('familyList').innerHTML = recent.length
+    ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
+    : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>';
+}
 
 // ─── PANEL PROFE ──────────────────────────────────────────────────
 async function showProf() {
