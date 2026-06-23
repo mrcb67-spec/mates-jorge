@@ -249,7 +249,7 @@ function genProporcionalidad(rng) {
   return {
     topic: 'Proporcionalidad directa',
     question: `Si ${a} artículos cuestan ${b} €, ¿cuánto cuestan ${c} artículos?`,
-    answers: [{ label: 'Resultado (€)', key: 'x' }],
+    answers: [{ label: 'Resultado', key: 'x' }],
     correctAnswers: { x: String(res) },
     steps: [`Razón: ${b}€ / ${a} artículos = ${(b/a).toFixed(2)} € por artículo`, `${c} artículos × ${(b/a).toFixed(2)} = ${res} €`],
     hint: 'Escribe los datos en forma de tabla:\n' + `${a} artículos → ${b} €\n${c} artículos → ¿x?\nComprueba si es directa (más→más) o inversa (más→menos).`
