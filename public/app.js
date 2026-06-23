@@ -524,10 +524,10 @@ function checkOne(i) {
     state.correct = true;
     // Calcular puntuación
     if (state.attempts === 1 && !state.hintShown) state.score = 1;
-    else if (state.attempts === 1 && state.hintShown) state.score = 0.75;
-    else if (state.attempts === 2 && !state.hintShown) state.score = 0.5;
-    else if (state.attempts === 2 && state.hintShown) state.score = 0.25;
-    else state.score = 0.1;
+    else if (state.attempts === 1 && state.hintShown) state.score = 0.6;
+    else if (state.attempts === 2 && !state.hintShown) state.score = 0.8;
+    else if (state.attempts === 2 && state.hintShown) state.score = 0.4;
+    else state.score = 0.2;
     markBlock(i, true);
     document.getElementById(`steps-${i}`).classList.add('show');
   } else {
