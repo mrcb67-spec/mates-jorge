@@ -106,3 +106,4 @@ input:focus { border-color: #667eea; }
 .session-date { font-weight: 500; }
 .session-score { color: #667eea; font-weight: 600; }
 .cal-day.missed { background: #ffe5e5; color: #ff3b30; }
+.cal-day.justified { background: #c084fc; color: white; font-weight: 600; }
