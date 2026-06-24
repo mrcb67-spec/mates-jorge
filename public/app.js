@@ -679,6 +679,14 @@ async function justifyDay(date) {
   showParent();
 }
 
+async function unjustifyDay(date) {
+  await apiFetch('/api/sessions', {
+    method: 'POST',
+    body: JSON.stringify({ username: 'jorge', date, score: 0, completed: false, justified: false })
+  });
+  showParent();
+}
+
 function showInfo() {
   const modal = document.getElementById('infoModal');
   modal.style.display = 'flex';
@@ -761,10 +769,10 @@ async function showParent() {
       <p style="font-size:13px;color:#86868b;margin-bottom:0.5rem">Días sin completar o pendientes — puedes justificar:</p>
       ${missedDays.slice(0,5).map(key => `<div class="session-row" style="margin-bottom:6px">
         <span class="session-date">${formatDateES(key)}</span>
-        <button class="btn btn-sm" onclick="justifyDay('${key}')" style="font-size:12px;padding:4px 10px">Justificar</button>
+        <button class="btn btn-sm" onclick="justifyDay('${key}')" style="font-size:12px;padding:4px 10px;background:#c084fc;color:white;border-color:#c084fc">Justificar</button>
       </div>`).join('')}
     </div>` : ''}
-    ${recent.length ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}${s.time ? ' · ' + s.time + 'h' : ''}${s.justified ? ' 🟣' : ''}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
+    ${recent.length ? `<div class="sessions-list">${recent.map(s=>`<div class="session-row"><span class="session-date">${formatDateES(s.date)}${s.time ? ' · ' + s.time + 'h' : ''}${s.justified ? ` 🟣 <button class="btn btn-sm" onclick="unjustifyDay('${s.date}')" style="font-size:11px;padding:2px 8px;margin-left:6px">Quitar</button>` : ''}</span><span class="session-score">${s.score}/10</span></div>`).join('')}</div>`
     : '<p style="color:#86868b;font-size:14px">Jorge aún no ha completado ningún día.</p>'}
   `;
 }
