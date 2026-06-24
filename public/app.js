@@ -670,6 +670,7 @@ async function loadTeacherMessage() {
     document.getElementById('teacherMsgText').textContent = '💬 ' + data.content;
   }
 }
+
 async function justifyDay(date) {
   await apiFetch('/api/sessions', {
     method: 'POST',
@@ -731,9 +732,11 @@ async function showParent() {
       const isWeekend=[0,6].includes(dt.getDay());
       const isToday=dt.getTime()===today.getTime();
       const isDone=profData[key]?.completed;
+      const isJustified=profData[key]?.justified;
       const isPast=dt<today&&dt>=startDate;
       let cls='cal-day';
-      if(isDone) cls+=' done';
+      if(isJustified) cls+=' justified';
+      else if(isDone) cls+=' done';
       else if(isToday) cls+=' today';
       else if(isPast) cls+=' missed';
       else if(isWeekend) cls+=' weekend';
