@@ -687,7 +687,9 @@ async function showParent() {
   showScreen('familyScreen');
   const sessions = await apiFetch('/api/sessions');
   const jorge = Array.isArray(sessions) ? sessions.filter(s => s.username === 'jorge') : [];
- // Semana actual
+ const done = jorge.filter(s => s.completed).length;
+  const avg = done ? (jorge.filter(s=>s.completed).reduce((a,s)=>a+s.score,0)/done).toFixed(1) : 0;
+  // Semana actual
   const todayDate = new Date(); todayDate.setHours(0,0,0,0);
   const dayOfWeek = todayDate.getDay() === 0 ? 7 : todayDate.getDay();
   const thisMonday = new Date(todayDate);
