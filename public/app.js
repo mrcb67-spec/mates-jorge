@@ -748,9 +748,9 @@ async function showParent() {
   }).join('')}</div>`;
   // Mostrar días sin hacer con opción de justificar (desde 29 junio hasta ayer)
   const startDate2 = new Date(2026, 5, 29);
-  const yesterday = new Date(); yesterday.setHours(0,0,0,0); yesterday.setDate(yesterday.getDate() - 1);
+  const endDate = new Date(2026, 7, 31);
   const missedDays = [];
-  for (let d = new Date(startDate2); d <= yesterday; d.setDate(d.getDate() + 1)) {
+  for (let d = new Date(startDate2); d <= endDate; d.setDate(d.getDate() + 1)) {
     const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const session = jorge.find(s => s.date === key);
     if (!session) missedDays.push(key);
@@ -758,7 +758,7 @@ async function showParent() {
   const recent = jorge.filter(s=>s.completed).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
   document.getElementById('familyList').innerHTML = `
     ${missedDays.length ? `<div style="margin-bottom:1rem">
-      <p style="font-size:13px;color:#86868b;margin-bottom:0.5rem">Días sin completar — puedes justificar uno:</p>
+      <p style="font-size:13px;color:#86868b;margin-bottom:0.5rem">Días sin completar o pendientes — puedes justificar:</p>
       ${missedDays.slice(0,5).map(key => `<div class="session-row" style="margin-bottom:6px">
         <span class="session-date">${formatDateES(key)}</span>
         <button class="btn btn-sm" onclick="justifyDay('${key}')" style="font-size:12px;padding:4px 10px">Justificar</button>
